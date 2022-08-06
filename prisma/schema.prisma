@@ -41,6 +41,7 @@ model Post {
   id            String   @id @default(uuid())
   title         String   @db.VarChar(255)
   content       String
+  image         String
   published     Boolean  @default(false)
   authorId      String
   favoritedById String?
@@ -49,5 +50,19 @@ model Post {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  categories Category[]
+
   @@map(name: "posts")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  tilte     String   @db.VarChar(255)
+  slug      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  posts Post[]
+
+  @@map(name: "categories")
 }
