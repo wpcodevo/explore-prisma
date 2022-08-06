@@ -26,6 +26,9 @@ model User {
 
   preferences Json
 
+  // block level attributes
+  @@unique([email, name])
+  @@index([email])
   @@map(name: "users")
 }
 
