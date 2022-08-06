@@ -1,0 +1,20 @@
+{
+  "name": "explore-prisma",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "db:migrate": "npx prisma migrate dev --name user-entity --create-only && yarn prisma generate",
+    "db:push": "npx prisma db push",
+    "start": "ts-node-dev --respawn --transpile-only server.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.1.1",
+    "prisma": "^4.1.1",
+    "typescript": "^4.7.4"
+  },
+  "devDependencies": {
+    "@types/node": "^18.6.4",
+    "ts-node-dev": "^2.0.0"
+  }
+}
