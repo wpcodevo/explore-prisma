@@ -26,7 +26,8 @@ model User {
 
   preferences Json
 
-  posts Post[]
+  writtenPosts  Post[] @relation("writtenPosts")
+  favoritePosts Post[] @relation("favoritePosts")
 
   @@map(name: "users")
 }
@@ -37,14 +38,16 @@ enum RoleEnumType {
 }
 
 model Post {
-  id        String   @id @default(uuid())
-  title     String   @db.VarChar(255)
-  content   String
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(uuid())
+  title         String   @db.VarChar(255)
+  content       String
+  published     Boolean  @default(false)
+  authorId      String
+  favoritedById String?
+  author        User     @relation("writtenPosts", fields: [authorId], references: [id])
+  favoritedBy   User?    @relation("favoritePosts", fields: [favoritedById], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@map(name: "posts")
 }
