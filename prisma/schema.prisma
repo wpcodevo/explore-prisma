@@ -24,30 +24,29 @@ model User {
   updatedAt DateTime      @updatedAt
   provider  String?
 
-  preferences Json
-
   writtenPosts  Post[] @relation("writtenPosts")
   favoritePosts Post[] @relation("favoritePosts")
 
-  userPreference UserPreference?
+  userPreference   UserPreference? @relation(fields: [userPreferenceId], references: [id])
+  userPreferenceId String?         @unique
 
   @@map(name: "users")
-}
-
-model UserPreference {
-  id String @id @default(uuid())
-  emailUpdates Boolean @default(false)
-  user User @relation(fields: [userId], references: [id])
-  userId String @unique
-  preference String
-
-  @@map(name: "userpreferences")
 }
 
 enum RoleEnumType {
   user
   admin
 }
+
+model UserPreference {
+  id           String  @id @default(uuid())
+  emailUpdates Boolean @default(false)
+  user         User?
+  preference   String
+
+  @@map(name: "userpreferences")
+}
+
 
 model Post {
   id            String   @id @default(uuid())
