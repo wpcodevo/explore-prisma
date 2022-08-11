@@ -24,10 +24,7 @@ model User {
   updatedAt DateTime      @updatedAt
   provider  String?
 
-  preferences Json
-
-  writtenPosts  Post[] @relation("writtenPosts")
-  favoritePosts Post[] @relation("favoritePosts")
+  userPreferences UserPreference?
 
   @@map(name: "users")
 }
@@ -37,32 +34,12 @@ enum RoleEnumType {
   admin
 }
 
-model Post {
-  id            String   @id @default(uuid())
-  title         String   @db.VarChar(255)
-  content       String
-  image         String
-  published     Boolean  @default(false)
-  authorId      String
-  favoritedById String?
-  author        User     @relation("writtenPosts", fields: [authorId], references: [id])
-  favoritedBy   User?    @relation("favoritePosts", fields: [favoritedById], references: [id])
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+model UserPreference {
+  id String @id @default(uuid())
+  emailUpdates Boolean @default(false)
+  user User @relation(fields: [userId], references: [id])
+  userId String @unique
+  preference String
 
-  categories Category[]
-
-  @@map(name: "posts")
-}
-
-model Category {
-  id        String   @id @default(uuid())
-  tilte     String   @db.VarChar(255)
-  slug      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  posts Post[]
-
-  @@map(name: "categories")
+  @@map(name: "userpreferences")
 }
